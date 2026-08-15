@@ -1,0 +1,10 @@
+# Gowin build outputs
+impl/
+temp/
+*.gprj.user
+# Firmware build artifacts (sinh lai bang build.bat)
+*.o
+*.elf
+*.bin
+*.map
+firmware/New folder/

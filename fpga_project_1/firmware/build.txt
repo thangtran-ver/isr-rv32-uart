@@ -1,0 +1,14 @@
+D:
+cd "D:\New folder (19)\isr_uart\fpga_project_1\firmware"
+
+"D:\xpack-riscv-none-elf-gcc-15.2.0-1-win32-x64\xpack-riscv-none-elf-gcc-15.2.0-1\bin\riscv-none-elf-gcc.exe" -march=rv32i -mabi=ilp32 -mno-relax -O0 -g -ffreestanding -nostdlib -nostartfiles -fno-builtin -fno-pic -ffunction-sections -fdata-sections -Wall -Wextra -T link.ld -Wl,--gc-sections -Wl,-Map,firmware.map -o firmware.elf start.S main.c
+
+"D:\xpack-riscv-none-elf-gcc-15.2.0-1-win32-x64\xpack-riscv-none-elf-gcc-15.2.0-1\bin\riscv-none-elf-objcopy.exe" -O binary firmware.elf firmware.bin
+
+python bin2hex.py firmware.bin firmware.hex 2048 --elf firmware.elf
+
+python isr_encoder.py firmware.hex firm_isr_m3.hex --mode 3 --key 0x5A5A5A5A --from-elf firmware.elf
+
+python attack_mode2_full.py firm_isr_m2.hex --known 0x0:0x00002117 --out firm_attack.hex
+
+python inject.py firmware_mode3.hex firmware_injected.hex --at 0x100 --n 4

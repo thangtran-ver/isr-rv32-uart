@@ -1,0 +1,50 @@
+//======================================================================
+//  isr.cst -- Physical Constraints  (Gowin)
+//  Board  : Sipeed Tang Nano 4K
+//  Device : GW1NSR-4C  /  GW1NSR-LV4CQN48PC6/I5   (QFN48)
+//  Top    : isr_top
+//
+//  Chan lay tu example chinh thuc cua Sipeed cho Tang Nano 4K
+//  (TangNano-4K-example: led_test.cst, key_blink.cst)
+//
+//    45  XTAL 27 MHz        -> sys_clk
+//    10  LED do (active-LOW)-> led        (bank 3.3 V)
+//    15  Nut S1  (pull-up)  -> sys_rst_n  (bank 1.8 V)
+//    40  UART TX            -> uart_tx_pin (bank 3.3 V)
+//    14  Nut S2  (pull-up)  -> chua dung
+//
+//  CANH BAO: neu thieu file nay, Place & Route se gan chan NGAU NHIEN
+//  va LED se khong bao gio sang.
+//======================================================================
+
+// ---- Clock 27 MHz tu thach anh on-board ------------------------------
+IO_LOC  "sys_clk"    45;
+IO_PORT "sys_clk"    IO_TYPE=LVCMOS33 PULL_MODE=UP;
+
+// ---- Reset: nut S1, active-low, can pull-up noi ----------------------
+// Chan 14/15 nam o bank 1.8 V tren Tang Nano 4K.
+IO_LOC  "sys_rst_n"  15;
+IO_PORT "sys_rst_n"  IO_TYPE=LVCMOS18 PULL_MODE=UP BANK_VCCIO=1.8;
+
+// ---- LED do on-board -------------------------------------------------
+// ACTIVE-LOW: ghi 0 = sang. isr_top co parameter LED_ACTIVE_LOW = 1
+// da xu ly viec dao nay roi. Neu tren board thay nguoc (sang khi le ra
+// phai tat), doi LED_ACTIVE_LOW ve 0 chu KHONG sua file nay.
+IO_LOC  "led"        10;
+IO_PORT "led"        IO_TYPE=LVCMOS33 PULL_MODE=NONE DRIVE=8 BANK_VCCIO=3.3;
+
+
+// ---- UART TX -> chan RX cua module CP2102 ------------------------------
+// Chan 40 nam o BANK 1 = 3.3 V. TUYET DOI khong dung chan bank 2 (27-35)
+// hay bank 3 (13-23) vi chung la 1.8 V -- dua 3.3 V vao la HONG FPGA.
+// Nho dat jumper CP2102 sang 3.3 V, KHONG phai 5 V.
+IO_LOC  "uart_tx_pin" 40;
+IO_PORT "uart_tx_pin" IO_TYPE=LVCMOS33 PULL_MODE=UP DRIVE=8 BANK_VCCIO=3.3;
+
+
+//======================================================================
+//  Du phong -- bo dau "//" neu sau nay muon them nut S2
+//  (vi du: giu S2 de ep dung key sai, demo duoc ma khong can nap lai)
+//======================================================================
+// IO_LOC  "key2_n"  14;
+// IO_PORT "key2_n"  IO_TYPE=LVCMOS18 PULL_MODE=UP BANK_VCCIO=1.8;
