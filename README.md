@@ -1,7 +1,7 @@
 # ISR-RV32 — PicoRV32 + Instruction Set Randomization (UART demo)
 
 Đồ án minh hoạ **Instruction Set Randomization (ISR)** trên lõi RISC-V
-[PicoRV32], tổng hợp cho FPGA (Gowin) và xuất kết quả ra PC qua UART.
+[PicoRV32], tổng hợp cho FPGA và xuất kết quả ra PC qua UART.
 
 Mã lệnh trong bộ nhớ được **mã hoá**; một khối `isr_decoder` nằm ngay trước
 tầng decode của CPU sẽ giải mã theo khoá bí mật khi và chỉ khi đang **nạp lệnh**
