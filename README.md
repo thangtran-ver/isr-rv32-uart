@@ -13,7 +13,7 @@ tầng decode của CPU sẽ giải mã theo khoá bí mật khi và chỉ khi �
 |------|---------|---------|
 | 0 | `0` | tắt ISR (bypass) |
 | 1 | `KEY` | XOR khoá cố định |
-| 2 | `xorshift32(pc^KEY) ^ KEY` | phụ thuộc PC — **tuyến tính, có thể phá** |
+| 2 | `xorshift32(pc^KEY) ^ KEY` | phụ thuộc PC — **tuyến tính** |
 | 3 | `PRF3(pc^KEY, KEY)` | 3 vòng S-box + khuếch tán — phi tuyến |
 
 ## Cấu trúc
@@ -35,7 +35,7 @@ main.c + start.S --gcc--> .elf --objcopy--> .bin --bin2hex.py--> .hex
                                    --isr_encoder.py (mode/key)--> firmware_enc.hex
 ```
 
-Chạy nhanh trên Windows: `firmware/build.bat` (sửa đường dẫn toolchain ở đầu file).
+
 
 ## Công cụ phân tích / tấn công (mục đích học thuật)
 
